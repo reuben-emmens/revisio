@@ -2,13 +2,12 @@ package flashcard
 
 import (
 	"encoding/csv"
-	"flag"
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
 
-	"github.com/peterbourgon/ff"
+	"github.com/peterbourgon/ff/v4"
 )
 
 type flashcard struct {
@@ -67,11 +66,11 @@ func Create(csvPath string) error {
 	}
 	switch os.Args[2] {
 	case "flashcard":
-		createFs := flag.NewFlagSet("new", flag.ExitOnError)
+		createFs := ff.NewFlagSet("new")
 
 		var (
-			subjectFlag = createFs.String("subject", "Hello World!", "subject of the flashcard")
-			contentFlag = createFs.String("content", "A standard 'first-project", "content of the flashcard")
+			subjectFlag = createFs.String('s', "subject", "Hello World!", "subject of the flashcard")
+			contentFlag = createFs.String('c', "content", "A standard 'first-project", "content of the flashcard")
 		)
 
 		if err := ff.Parse(createFs, os.Args[3:]); err != nil {

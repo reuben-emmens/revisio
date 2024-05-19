@@ -1,12 +1,11 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"log"
 	"os"
 
-	"github.com/peterbourgon/ff"
+	"github.com/peterbourgon/ff/v4"
 
 	"github.com/reuben-emmens/revisio/flashcard"
 	"github.com/reuben-emmens/revisio/utils"
@@ -27,11 +26,11 @@ Add the -h suffix to subcommands for more configuration options`
 )
 
 func main() {
-	fs := flag.NewFlagSet("fs", flag.ExitOnError)
+	fs := ff.NewFlagSet("fs")
 	var (
-		versionFlag = fs.Bool("version", false, "print version information")
-		helpFlag    = fs.Bool("help", false, "print help documentation")
-		csvPathFlag = fs.String("csv-path", "/.local/share/revisio/data.csv", "location of .csv file containing cards")
+		versionFlag = fs.Bool('v', "version", "print version information")
+		helpFlag    = fs.Bool('h', "help", "print help documentation")
+		csvPathFlag = fs.String('p', "path", "/.local/share/revisio/data.csv", "path to .csv file to store flashcard data")
 	)
 
 	if err := ff.Parse(fs, os.Args[1:],
