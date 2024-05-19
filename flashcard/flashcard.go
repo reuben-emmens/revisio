@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"path/filepath"
 
 	"github.com/peterbourgon/ff/v4"
+	"github.com/reuben-emmens/revisio/utils"
 )
 
 type flashcard struct {
@@ -19,12 +19,8 @@ func NewFlashcard(subjectFlag, contentFlag string) (*flashcard, error) {
 	return &flashcard{subject: subjectFlag, content: contentFlag}, nil
 }
 
-func WriteToCsv(fc *flashcard, csvPath string) error {
-	if err := os.MkdirAll(filepath.Dir(csvPath), 0744); err != nil {
-		return err
-	}
-
-	file, err := os.OpenFile(csvPath, os.O_WRONLY|os.O_CREATE, 0644)
+func WriteToCsv(fc *flashcard, ctx utils.Context) error {
+	file, err := os.OpenFile(ctx.Data, os.O_WRONLY|os.O_CREATE, 0644)
 	if err != nil {
 		return err
 	}
@@ -39,7 +35,6 @@ func WriteToCsv(fc *flashcard, csvPath string) error {
 		log.Fatalln("error writing record to csv:", err)
 	}
 
-	// Write any buffered data to the underlying writer (standard output).
 	w.Flush()
 	if err := w.Error(); err != nil {
 		log.Fatal(err)
@@ -47,34 +42,41 @@ func WriteToCsv(fc *flashcard, csvPath string) error {
 	return nil
 }
 
-func GetDataPath(path string) (string, error) {
-	if path != "/.local/share/revisio/data.csv" {
-		return path, nil
-	}
+func Create(ctx utils.Context) error {
 
-	home, err := os.UserHomeDir()
-	if err != nil {
-		return "", err
-	}
-
-	return filepath.Join(home, path), nil
-}
-
-func Create(csvPath string) error {
+	const (
+		createHelpMessage = `Usage: revisio create [options]
+	
+Options:
+	-s, --subject The subject of the flashcard
+	-c, --content The content of the flashcard
+	-h, --help 	  Print this help message.`
+	)
 	if len(os.Args) < 3 {
-		return fmt.Errorf("Missing create subcommand")
+		return fmt.Errorf("missing subcommand")
 	}
+
 	switch os.Args[2] {
 	case "flashcard":
-		createFs := ff.NewFlagSet("new")
+		createFs := ff.NewFlagSet("createFs")
 
 		var (
-			subjectFlag = createFs.String('s', "subject", "Hello World!", "subject of the flashcard")
-			contentFlag = createFs.String('c', "content", "A standard 'first-project", "content of the flashcard")
+			subjectFlag = createFs.String('s', "subject", "", "subject of the flashcard")
+			contentFlag = createFs.String('c', "content", "", "content of the flashcard")
+			helpFlag    = createFs.Bool('h', "help", "print help documentation")
 		)
 
 		if err := ff.Parse(createFs, os.Args[3:]); err != nil {
 			log.Fatalf("error parsing create variables: %s", err)
+		}
+		if len(os.Args) < 4 {
+			fmt.Println(createHelpMessage)
+			os.Exit(0)
+		}
+
+		if *helpFlag {
+			fmt.Println(createHelpMessage)
+			os.Exit(0)
 		}
 
 		fc, err := NewFlashcard(*subjectFlag, *contentFlag)
@@ -82,12 +84,12 @@ func Create(csvPath string) error {
 			return err
 		}
 
-		if err := WriteToCsv(fc, csvPath); err != nil {
+		if err := WriteToCsv(fc, ctx); err != nil {
 			return err
 		}
 
 	default:
-		return fmt.Errorf("Invalid create subcommand")
+		return fmt.Errorf("invalid create subcommand")
 	}
 	return nil
 }
