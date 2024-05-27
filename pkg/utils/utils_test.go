@@ -3,7 +3,7 @@ package utils_test
 import (
 	"testing"
 
-	"github.com/reuben-emmens/revisio/utils"
+	"github.com/reuben-emmens/revisio/pkg/utils"
 )
 
 func TestPrintVersion(t *testing.T) {
