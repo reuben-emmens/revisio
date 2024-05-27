@@ -7,21 +7,13 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"time"
 )
 
-// Object is meant to be a domain object for a theoretical object store.
-type Object struct {
-	Key    string
-	Value  string
-	Access time.Time
-}
-
 type Client struct {
-	database        *database
+	database *database
 }
 
-func NewClient(token string) (*Client, error) {
+func NewClient() (*Client, error) {
 	database, err := newDatabase()
 	if err != nil {
 		return &Client{}, err
@@ -37,7 +29,8 @@ func (c *Client) Create(ctx context.Context, key, value string) error {
 }
 
 type database struct {
-	location string
+	directory string
+	file      string
 }
 
 func newDatabase() (*database, error) {
@@ -46,22 +39,24 @@ func newDatabase() (*database, error) {
 	home, err := os.UserHomeDir()
 	if err != nil {
 		err = fmt.Errorf("error detecting user home directory: %s", err)
-		return &database{}, err
+		return nil, err
 	}
 
-	UserDataDir := filepath.Join(home, subpath)
-	if err = os.MkdirAll(UserDataDir, 0644); err != nil {
-		err = fmt.Errorf("error accessing user-data directory, %s: %s", UserDataDir, err)
-		return &database{}, err
+	dirpath := filepath.Join(home, subpath)
+	if err = os.MkdirAll(dirpath, 0644); err != nil {
+		err = fmt.Errorf("error creating/opening directory, %s: %s", dirpath, err)
+		return nil, err
 	}
 
+	filepath := filepath.Join(dirpath, "data.csv")
 	return &database{
-		location:   UserDataDir,
+		directory: dirpath,
+		file:      filepath,
 	}, nil
 }
 
 func (db *database) create(key, value string) error {
-	file, err := os.OpenFile(db.location, os.O_WRONLY|os.O_CREATE, 0644)
+	file, err := os.OpenFile(db.file, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644)
 	if err != nil {
 		return err
 	}
@@ -80,22 +75,3 @@ func (db *database) create(key, value string) error {
 	}
 	return nil
 }
-
-// func NewFlashcard(subjectFlag, contentFlag string) (*flashcard, error) {
-// 	return &flashcard{subject: subjectFlag, content: contentFlag}, nil
-// }
-
-
-
-// 	const (
-// 		createHelpMessage = `Usage: revisio create [options]
-	
-// Options:
-// 	-s, --subject The subject of the flashcard
-// 	-c, --content The content of the flashcard
-// 	-h, --help 	  Print this help message.`
-// 	)
-// 	if len(os.Args) < 3 {
-// 		return fmt.Errorf("missing subcommand")
-// 	}
-

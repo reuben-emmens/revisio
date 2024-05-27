@@ -11,20 +11,18 @@ import (
 	"github.com/peterbourgon/ff/v4/ffhelp"
 
 	"github.com/reuben-emmens/revisio/pkg/createcmd"
-	"github.com/reuben-emmens/revisio/pkg/deletecmd"
-	"github.com/reuben-emmens/revisio/pkg/listcmd"
+	"github.com/reuben-emmens/revisio/pkg/objectapi"
 	"github.com/reuben-emmens/revisio/pkg/rootcmd"
-	// "github.com/reuben-emmens/revisio/pkg/utilscmd"
+	"github.com/reuben-emmens/revisio/pkg/versioncmd"
 )
 
 func main() {
 	var (
 		ctx    = context.Background()
 		args   = os.Args[1:]
-		stdin  = os.Stdin
 		stdout = os.Stdout
 		stderr = os.Stderr
-		err    = exec(ctx, args, stdin, stdout, stderr)
+		err    = exec(ctx, args, stdout, stderr)
 	)
 	switch {
 	case err == nil, errors.Is(err, ff.ErrHelp), errors.Is(err, ff.ErrNoExec):
@@ -35,9 +33,10 @@ func main() {
 	}
 }
 
-func exec(ctx context.Context, args []string, stdin io.Reader, stdout, stderr io.Writer) (err error) {
+func exec(ctx context.Context, args []string, stdout, stderr io.Writer) (err error) {
 	var (
 		root = rootcmd.New(stdout, stderr)
+		_    = versioncmd.New(root)
 		_    = createcmd.New(root)
 	)
 
@@ -50,6 +49,13 @@ func exec(ctx context.Context, args []string, stdin io.Reader, stdout, stderr io
 	if err := root.Command.Parse(args); err != nil {
 		return fmt.Errorf("parse: %w", err)
 	}
+
+	client, err := objectapi.NewClient()
+	if err != nil {
+		return fmt.Errorf("construct API client: %w", err)
+	}
+
+	root.Client = client
 
 	if err := root.Command.Run(ctx); err != nil {
 		return fmt.Errorf("run: %w", err)
