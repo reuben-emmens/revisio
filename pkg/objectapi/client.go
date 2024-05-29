@@ -3,6 +3,7 @@ package objectapi
 import (
 	"context"
 	"encoding/csv"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -26,6 +27,10 @@ func NewClient() (*Client, error) {
 
 func (c *Client) Create(ctx context.Context, key, value string) error {
 	return c.database.create(key, value)
+}
+
+func (c *Client) Read(ctx context.Context, key string) ([]string, error) {
+	return c.database.read(key)
 }
 
 type database struct {
@@ -74,4 +79,22 @@ func (db *database) create(key, value string) error {
 		log.Fatal(err)
 	}
 	return nil
+}
+
+func (db *database) read(key string) ([]string, error) {
+	RecordNotExist := errors.New("no record of this subject has been found")
+
+	file, err := os.OpenFile(db.file, os.O_RDONLY, 0644)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+	for record, err := reader.Read(); err == nil; record, err = reader.Read() {
+		if record[0] == key {
+			return record, nil
+		}
+	}
+	return nil, RecordNotExist
 }

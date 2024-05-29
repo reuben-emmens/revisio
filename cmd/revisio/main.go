@@ -12,6 +12,7 @@ import (
 
 	"github.com/reuben-emmens/revisio/pkg/createcmd"
 	"github.com/reuben-emmens/revisio/pkg/objectapi"
+	"github.com/reuben-emmens/revisio/pkg/readcmd"
 	"github.com/reuben-emmens/revisio/pkg/rootcmd"
 	"github.com/reuben-emmens/revisio/pkg/versioncmd"
 )
@@ -38,6 +39,7 @@ func exec(ctx context.Context, args []string, stdout, stderr io.Writer) (err err
 		root = rootcmd.New(stdout, stderr)
 		_    = versioncmd.New(root)
 		_    = createcmd.New(root)
+		_    = readcmd.New(root)
 	)
 
 	defer func() {
