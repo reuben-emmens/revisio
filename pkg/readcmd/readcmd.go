@@ -22,13 +22,16 @@ func New(rootConfig *rootcmd.RootConfig) *ReadConfig {
 	var cfg ReadConfig
 	cfg.RootConfig = rootConfig
 	cfg.Flags = ff.NewFlagSet("read").SetParent(cfg.RootConfig.Flags)
-	cfg.Flags.AddFlag(ff.FlagConfig{
+	_, err := cfg.Flags.AddFlag(ff.FlagConfig{
 		ShortName: 's',
 		LongName:  "subject",
 		Value:     ffval.NewValue(&cfg.Subject),
 		Usage:     "The subject of the flashcard",
 		NoDefault: true,
 	})
+	if err != nil {
+		fmt.Fprintln(cfg.Stderr, rootcmd.AddFlagErr.Error())
+	}
 	cfg.Command = &ff.Command{
 		Name:      "read",
 		Usage:     "revisio read [FLAGS] <KEY> <VALUE>",

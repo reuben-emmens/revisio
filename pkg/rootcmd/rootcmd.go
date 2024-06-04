@@ -1,11 +1,17 @@
 package rootcmd
 
 import (
+	"errors"
+	"fmt"
 	"io"
 
 	"github.com/peterbourgon/ff/v4"
 	"github.com/peterbourgon/ff/v4/ffval"
 	"github.com/reuben-emmens/revisio/pkg/objectapi"
+)
+
+var (
+	AddFlagErr = errors.New("unable to add flag")
 )
 
 type RootConfig struct {
@@ -22,13 +28,16 @@ func New(stdout, stderr io.Writer) *RootConfig {
 	cfg.Stdout = stdout
 	cfg.Stderr = stderr
 	cfg.Flags = ff.NewFlagSet("revisio")
-	cfg.Flags.AddFlag(ff.FlagConfig{
+	_, err := cfg.Flags.AddFlag(ff.FlagConfig{
 		ShortName: 'v',
 		LongName:  "verbose",
 		Value:     ffval.NewValue(&cfg.Verbose),
 		Usage:     "log verbose output",
 		NoDefault: true,
 	})
+	if err != nil {
+		fmt.Fprintln(cfg.Stderr, AddFlagErr.Error())
+	}
 	cfg.Command = &ff.Command{
 		Name:      "revisio",
 		ShortHelp: "manage flashcards",
