@@ -10,6 +10,8 @@
 # But not these files...
 !/.gitignore
 
+!/.github/workflows/*
+
 !*.go
 !go.sum
 !go.mod

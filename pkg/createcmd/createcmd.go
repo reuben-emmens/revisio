@@ -23,20 +23,26 @@ func New(rootConfig *rootcmd.RootConfig) *CreateConfig {
 	var cfg CreateConfig
 	cfg.RootConfig = rootConfig
 	cfg.Flags = ff.NewFlagSet("create").SetParent(cfg.RootConfig.Flags)
-	cfg.Flags.AddFlag(ff.FlagConfig{
+	_, err := cfg.Flags.AddFlag(ff.FlagConfig{
 		ShortName: 's',
 		LongName:  "subject",
 		Value:     ffval.NewValue(&cfg.Subject),
 		Usage:     "The subject of the flashcard",
 		NoDefault: true,
 	})
-	cfg.Flags.AddFlag(ff.FlagConfig{
+	if err != nil {
+		fmt.Fprintln(cfg.Stderr, rootcmd.AddFlagErr.Error())
+	}
+	_, err = cfg.Flags.AddFlag(ff.FlagConfig{
 		ShortName: 'c',
 		LongName:  "content",
 		Value:     ffval.NewValue(&cfg.Content),
 		Usage:     "The content of the flashcard",
 		NoDefault: true,
 	})
+	if err != nil {
+		fmt.Fprintln(cfg.Stderr, rootcmd.AddFlagErr.Error())
+	}
 	cfg.Command = &ff.Command{
 		Name:      "create",
 		Usage:     "revisio create [FLAGS] <KEY> <VALUE>",
