@@ -15,5 +15,10 @@ test: lint
   @go test ./...
 
 alias b := build
-build: test
+build: lint
   @go build -o revisio cmd/revisio/main.go
+
+path: build
+  @mkdir -p ~/bin
+  @cp revisio ~/bin
+  export PATH=$PATH:$HOME/bin
