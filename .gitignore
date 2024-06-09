@@ -11,6 +11,7 @@
 !/.gitignore
 
 !/.github/workflows/*
+!justfile
 
 !*.go
 !go.sum
