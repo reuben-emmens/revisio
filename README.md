@@ -2,4 +2,6 @@
 
 # revisio
 
-Welcome to this simple flashcard app. It is currently in active-development as a hobby project, with the goal of practicing basic principles of Go programming and CI automation.
+Welcome to 'revisio', the digital flashcard management tool. The goal of the project is to create a CLI application which can both import CSV data and accept key-value arguments to create flashcards.
+
+There are ideas for more extended functionality, but these should be weighted against the benefits of keeping the app lightweight with a consistent API for third-party extensibility.
