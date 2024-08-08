@@ -21,9 +21,9 @@ build: lint
   @go build -o revisio cmd/revisio/main.go
 
 path: build
-  @mkdir -p ~/bin
-  @cp revisio ~/bin
-  export PATH=$PATH:$HOME/bin
+  @mkdir -p ~/.local/bin
+  @cp revisio ~/.local/bin
+  export PATH=$PATH:$HOME/.local/bin
 
 set-control: 
   mkdir -pv $ROOT/DEBIAN
