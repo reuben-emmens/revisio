@@ -7,10 +7,9 @@ import (
 	"github.com/peterbourgon/ff/v4"
 
 	versionPkg "github.com/hashicorp/go-version"
+	"github.com/reuben-emmens/revisio/internal/version"
 	"github.com/reuben-emmens/revisio/pkg/rootcmd"
 )
-
-const version = "v0.1.0-alpha"
 
 type VersionConfig struct {
 	*rootcmd.RootConfig
@@ -22,7 +21,7 @@ type VersionConfig struct {
 func New(rootConfig *rootcmd.RootConfig) *VersionConfig {
 	var cfg VersionConfig
 	cfg.RootConfig = rootConfig
-	cfg.Version, _ = versionPkg.NewVersion(version)
+	cfg.Version, _ = versionPkg.NewVersion(version.Get().Version)
 	cfg.Flags = ff.NewFlagSet("version").SetParent(cfg.RootConfig.Flags)
 	cfg.Command = &ff.Command{
 		Name:      "version",
@@ -36,6 +35,6 @@ func New(rootConfig *rootcmd.RootConfig) *VersionConfig {
 }
 
 func (cfg *VersionConfig) Exec(ctx context.Context, args []string) error {
-	fmt.Printf("revisio version %s\n", cfg.Version.String())
+	fmt.Println(version.Get().String())
 	return nil
 }
