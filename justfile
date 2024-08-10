@@ -18,7 +18,7 @@ test: lint
 
 alias b := build
 build: lint
-  @go build -o revisio cmd/revisio/main.go
+  ./hack/build.sh
 
 path: build
   @mkdir -p ~/.local/bin
