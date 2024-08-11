@@ -1,0 +1,7 @@
+package: revisio
+section: base
+version: 0.1.0-alpha
+priority: optional
+architecture: amd64
+maintainer: Reuben Emmens <reuben@emmens.uk>
+description: A simple flashcard app
