@@ -34,13 +34,13 @@ func Get() *VersionInfo {
 
 func (v *VersionInfo) String() string {
 
-	version_string := fmt.Sprintf(`revisio
-Version:    %s,
-GitCommit:  %s,
-BuildDate:  %s,
-GoVersion:  %s,
-Compiler:   %s,
-Platform:   %s`, v.Version,
+	version_string := fmt.Sprintf(`Revisio %s
+
+Git Commit:  	%s
+Build Date:  	%s
+Go Version:  	%s
+Compiler:   	%s
+Platform:   	%s`, v.Version,
 		v.GitCommit,
 		v.BuildDate,
 		v.GoVersion,
