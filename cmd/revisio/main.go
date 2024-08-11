@@ -10,8 +10,8 @@ import (
 	"github.com/peterbourgon/ff/v4"
 	"github.com/peterbourgon/ff/v4/ffhelp"
 
+	"github.com/reuben-emmens/revisio/internal/models/client"
 	"github.com/reuben-emmens/revisio/pkg/createcmd"
-	"github.com/reuben-emmens/revisio/pkg/objectapi"
 	"github.com/reuben-emmens/revisio/pkg/readcmd"
 	"github.com/reuben-emmens/revisio/pkg/rootcmd"
 	"github.com/reuben-emmens/revisio/pkg/versioncmd"
@@ -52,7 +52,7 @@ func exec(ctx context.Context, args []string, stdout, stderr io.Writer) (err err
 		return fmt.Errorf("parse: %w", err)
 	}
 
-	client, err := objectapi.NewClient()
+	client, err := client.New()
 	if err != nil {
 		return fmt.Errorf("construct API client: %w", err)
 	}
