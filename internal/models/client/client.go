@@ -1,4 +1,4 @@
-package objectapi
+package client
 
 import (
 	"context"
@@ -14,7 +14,7 @@ type Client struct {
 	database *database
 }
 
-func NewClient() (*Client, error) {
+func New() (*Client, error) {
 	database, err := newDatabase()
 	if err != nil {
 		return &Client{}, err

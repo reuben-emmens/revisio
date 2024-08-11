@@ -7,7 +7,7 @@ import (
 
 	"github.com/peterbourgon/ff/v4"
 	"github.com/peterbourgon/ff/v4/ffval"
-	"github.com/reuben-emmens/revisio/pkg/objectapi"
+	"github.com/reuben-emmens/revisio/internal/models/client"
 )
 
 var (
@@ -18,7 +18,7 @@ type RootConfig struct {
 	Stdout  io.Writer
 	Stderr  io.Writer
 	Verbose bool
-	Client  *objectapi.Client
+	Client  *client.Client
 	Flags   *ff.FlagSet
 	Command *ff.Command
 }
