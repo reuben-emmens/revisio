@@ -31,7 +31,6 @@ func New(stdout, stderr io.Writer) *RootConfig {
 	cfg.Stderr = stderr
 	cfg.Flags = ff.NewFlagSet("revisio")
 	_, err := cfg.Flags.AddFlag(ff.FlagConfig{
-		ShortName: 'v',
 		LongName:  "verbose",
 		Value:     ffval.NewValue(&cfg.Verbose),
 		Usage:     "log verbose output",
