@@ -32,12 +32,12 @@ func (c *csvfile) Create(ctx context.Context, key, value string) error {
 }
 
 func (c *csvfile) ReadValue(ctx context.Context, key string) (string, error) {
-	value, err := c.readValue(key)
+	kV, err := c.read(key)
 	if err != nil {
 		return "", err
 	}
 
-	return value, nil
+	return kV["value"], nil
 }
 
 func newCsvfile() (*csvfile, error) {
@@ -83,19 +83,28 @@ func (c *csvfile) create(key, value string) error {
 	return nil
 }
 
-func (c *csvfile) readValue(key string) (string, error) {
+func (c *csvfile) read(key string) (map[string]string, error) {
 
 	file, err := os.OpenFile(c.file, os.O_RDONLY, 0644)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	defer file.Close()
 
 	reader := csv.NewReader(file)
-	for line, err := reader.Read(); err == nil; line, err = reader.Read() {
-		if line[0] == key {
-			return line[1], nil
+	kV := make(map[string]string)
+	for row, err := reader.Read(); err == nil; row, err = reader.Read() {
+		if row[0] == key {
+			for i, value := range row {
+				switch i {
+				case 0:
+					kV["key"] = key
+				case 1:
+					kV["value"] = value
+				}
+			}
+			return kV, nil
 		}
 	}
-	return "", ErrNotExist
+	return nil, ErrNotExist
 }
