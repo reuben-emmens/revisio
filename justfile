@@ -37,7 +37,7 @@ set-control:
 
 deb-pkg: build set-control
   mkdir -pv $BIN 
-  mv revisio $BIN
+  mv bin/revisio $BIN
   dpkg-deb --build $ROOT $PACKAGES
   sha256sum $PACKAGES/$DEBPKG > $PACKAGES/$DEBSHA
 
