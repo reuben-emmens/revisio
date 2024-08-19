@@ -8,6 +8,7 @@ import (
 	"github.com/peterbourgon/ff/v4"
 	"github.com/peterbourgon/ff/v4/ffval"
 	"github.com/reuben-emmens/revisio/internal/models/client"
+	"github.com/reuben-emmens/revisio/internal/models/flashcard"
 )
 
 var (
@@ -15,12 +16,13 @@ var (
 )
 
 type RootConfig struct {
-	Stdout  io.Writer
-	Stderr  io.Writer
-	Verbose bool
-	Client  client.Client
-	Flags   *ff.FlagSet
-	Command *ff.Command
+	Stdout    io.Writer
+	Stderr    io.Writer
+	Verbose   bool
+	Flags     *ff.FlagSet
+	Command   *ff.Command
+	Client    client.Client
+	Flashcard *flashcard.Flashcard
 }
 
 func New(stdout, stderr io.Writer) *RootConfig {
@@ -44,6 +46,8 @@ func New(stdout, stderr io.Writer) *RootConfig {
 		Usage:     "revisio [FLAGS] <SUBCOMMAND> ...",
 		Flags:     cfg.Flags,
 	}
+
+	cfg.Flashcard = new(flashcard.Flashcard)
 
 	return &cfg
 }

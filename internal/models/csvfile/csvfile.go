@@ -31,13 +31,13 @@ func (c *csvfile) Create(ctx context.Context, key, value string) error {
 	return c.create(key, value)
 }
 
-func (c *csvfile) Read(ctx context.Context, key string) (map[string]string, error) {
-	qAndA, err := c.read(key)
+func (c *csvfile) ReadValue(ctx context.Context, key string) (string, error) {
+	value, err := c.readValue(key)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	return qAndA, nil
+	return value, nil
 }
 
 func newCsvfile() (*csvfile, error) {
@@ -83,24 +83,19 @@ func (c *csvfile) create(key, value string) error {
 	return nil
 }
 
-func (c *csvfile) read(key string) (map[string]string, error) {
+func (c *csvfile) readValue(key string) (string, error) {
 
 	file, err := os.OpenFile(c.file, os.O_RDONLY, 0644)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	defer file.Close()
 
 	reader := csv.NewReader(file)
 	for line, err := reader.Read(); err == nil; line, err = reader.Read() {
 		if line[0] == key {
-			value := line[1]
-			qAndA := make(map[string]string)
-			qAndA["question"] = key
-			qAndA["answer"] = value
-
-			return qAndA, nil
+			return line[1], nil
 		}
 	}
-	return nil, ErrNotExist
+	return "", ErrNotExist
 }

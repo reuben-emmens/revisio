@@ -27,7 +27,7 @@ func main() {
 	)
 	switch {
 	case err == nil, errors.Is(err, ff.ErrHelp), errors.Is(err, ff.ErrNoExec):
-		// no problem
+		// ignore
 	case err != nil:
 		fmt.Fprintf(stderr, "error: %v\n", err)
 		os.Exit(1)
