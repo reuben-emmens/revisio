@@ -49,16 +49,16 @@ func exec(ctx context.Context, args []string, stdout, stderr io.Writer) (err err
 	}()
 
 	if err := root.Command.Parse(args); err != nil {
-		return fmt.Errorf("parse: %s", err)
+		return fmt.Errorf("parse: %w", err)
 	}
 
 	root.Client, err = client.New(ctx, "csvfile") // later clientType needs to be sourced from flag
 	if err != nil {
-		return fmt.Errorf("%s", err)
+		return fmt.Errorf("new client: %w", err)
 	}
 
 	if err := root.Command.Run(ctx); err != nil {
-		return fmt.Errorf("run: %s", err)
+		return fmt.Errorf("run: %w", err)
 	}
 
 	return nil
