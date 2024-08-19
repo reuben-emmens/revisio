@@ -38,12 +38,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
-        with:
-          name: debian-package
+
+      - run: |
+          ls
 
       - name: install .deb
         run: |
-          sudo dpkg -i debian-package/*
+          sudo dpkg -i *
       
       - name: run version command
         run: |
