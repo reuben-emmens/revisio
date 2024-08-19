@@ -50,7 +50,7 @@ func newCsvfile() (*csvfile, error) {
 	}
 
 	dirpath := filepath.Join(home, subpath)
-	if err = os.MkdirAll(dirpath, 0644); err != nil {
+	if err = os.MkdirAll(dirpath, 0700); err != nil {
 		err = fmt.Errorf("error creating/opening directory, %s: %s", dirpath, err)
 		return nil, err
 	}
@@ -63,7 +63,7 @@ func newCsvfile() (*csvfile, error) {
 }
 
 func (c *csvfile) create(key, value string) error {
-	file, err := os.OpenFile(c.file, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644)
+	file, err := os.OpenFile(c.file, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		return err
 	}
@@ -85,7 +85,7 @@ func (c *csvfile) create(key, value string) error {
 
 func (c *csvfile) read(key string) (map[string]string, error) {
 
-	file, err := os.OpenFile(c.file, os.O_RDONLY, 0644)
+	file, err := os.OpenFile(c.file, os.O_RDONLY, 0700)
 	if err != nil {
 		return nil, err
 	}
