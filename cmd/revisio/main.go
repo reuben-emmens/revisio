@@ -52,12 +52,10 @@ func exec(ctx context.Context, args []string, stdout, stderr io.Writer) (err err
 		return fmt.Errorf("parse: %w", err)
 	}
 
-	client, err := client.New()
+	root.Client, err = client.New(ctx, "csvfile")
 	if err != nil {
-		return fmt.Errorf("construct API client: %w", err)
+		return fmt.Errorf("new client: %w", err)
 	}
-
-	root.Client = client
 
 	if err := root.Command.Run(ctx); err != nil {
 		return fmt.Errorf("run: %w", err)

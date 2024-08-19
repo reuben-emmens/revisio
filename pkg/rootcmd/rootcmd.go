@@ -18,7 +18,7 @@ type RootConfig struct {
 	Stdout  io.Writer
 	Stderr  io.Writer
 	Verbose bool
-	Client  *client.Client
+	Client  client.Client
 	Flags   *ff.FlagSet
 	Command *ff.Command
 }
@@ -44,5 +44,6 @@ func New(stdout, stderr io.Writer) *RootConfig {
 		Usage:     "revisio [FLAGS] <SUBCOMMAND> ...",
 		Flags:     cfg.Flags,
 	}
+
 	return &cfg
 }

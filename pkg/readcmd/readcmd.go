@@ -57,7 +57,7 @@ func (cfg *ReadConfig) Exec(ctx context.Context, args []string) error {
 		fmt.Fprintf(cfg.Stderr, "read %q OK\n", cfg.Subject)
 	}
 
-	fmt.Fprintf(cfg.Stderr, "%s: %s\n", record[0], record[1])
+	fmt.Fprintf(cfg.Stderr, "%s: %s\n", record["question"], record["answer"])
 
 	return nil
 }
