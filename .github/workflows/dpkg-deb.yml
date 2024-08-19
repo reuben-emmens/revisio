@@ -13,18 +13,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: just setup
-        uses: extractions/setup-just@v2
+      - uses: extractions/setup-just@v2
       
-      - name: go setup
-        uses: actions/setup-go@v4
+      - uses: actions/setup-go@v4
         with:
-          go-version: '1.22.3'
+          go-version: 'stable'
 
       - name: install dev-tools 
         run: just dev-tools
 
-      - name: run just build and package command 
+      - name: run just build and debian package commands 
         run: just deb-pkg
 
       - uses: actions/upload-artifact@v4
@@ -37,15 +35,22 @@ jobs:
     name: download-and-install
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      
       - uses: actions/download-artifact@v4
 
-      - run: |
-          ls
-
-      - name: install .deb
+      - name: install debian package
         run: |
           sudo dpkg -i debian-package/*
       
       - name: run version command
         run: |
           revisio version
+
+      - name: run create command
+        run: |
+          revisio create -k hello -v world
+
+      - name: run read command with verbosity
+        run: |
+          revisio read -k hello --verbose
