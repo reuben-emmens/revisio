@@ -1,4 +1,5 @@
 !.gitignore
 !build.yml
 !dependency-review.yml
+!dpkg-deb.yml
 !golangci-lint.yml
