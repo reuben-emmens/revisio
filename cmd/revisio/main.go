@@ -52,7 +52,7 @@ func exec(ctx context.Context, args []string, stdout, stderr io.Writer) (err err
 		return fmt.Errorf("parse: %w", err)
 	}
 
-	root.Client, err = client.New(ctx, "csvfile") // later clientType needs to be sourced from flag
+	root.Client, err = client.New(ctx, "csvfile")
 	if err != nil {
 		return fmt.Errorf("new client: %w", err)
 	}
