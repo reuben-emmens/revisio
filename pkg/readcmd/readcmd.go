@@ -13,7 +13,6 @@ import (
 
 type ReadConfig struct {
 	*rootcmd.RootConfig
-	Subject string
 	Flags   *ff.FlagSet
 	Command *ff.Command
 }
@@ -23,10 +22,10 @@ func New(rootConfig *rootcmd.RootConfig) *ReadConfig {
 	cfg.RootConfig = rootConfig
 	cfg.Flags = ff.NewFlagSet("read").SetParent(cfg.RootConfig.Flags)
 	_, err := cfg.Flags.AddFlag(ff.FlagConfig{
-		ShortName: 's',
-		LongName:  "subject",
-		Value:     ffval.NewValue(&cfg.Subject),
-		Usage:     "The subject of the flashcard",
+		ShortName: 'k',
+		LongName:  "key",
+		Value:     ffval.NewValue(cfg.Flashcard.GetKey()),
+		Usage:     "The key of the flashcard",
 		NoDefault: true,
 	})
 	if err != nil {
@@ -44,20 +43,23 @@ func New(rootConfig *rootcmd.RootConfig) *ReadConfig {
 }
 
 func (cfg *ReadConfig) Exec(ctx context.Context, args []string) error {
-	if cfg.Subject == "" {
-		return errors.New("Missing required flag: -s, --subject")
+	subject := cfg.Flashcard.GetKey()
+	if *subject == "" {
+		return errors.New("Missing required flag: -k, --key")
 	}
 
-	record, err := cfg.Client.Read(ctx, cfg.Subject)
+	value, err := cfg.Client.ReadValue(ctx, *subject)
 	if err != nil {
 		return err
 	}
 
+	cfg.Flashcard.SetValue(value)
+
 	if cfg.Verbose {
-		fmt.Fprintf(cfg.Stderr, "read %q OK\n", cfg.Subject)
+		fmt.Fprintf(cfg.Stderr, "read %q OK\n", *subject)
 	}
 
-	fmt.Fprintf(cfg.Stderr, "%s: %s\n", record["question"], record["answer"])
+	cfg.Flashcard.Print(cfg.Stderr)
 
 	return nil
 }

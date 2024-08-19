@@ -23,7 +23,7 @@ type Creater interface {
 }
 
 type Reader interface {
-	Read(ctx context.Context, key string) (map[string]string, error)
+	ReadValue(ctx context.Context, key string) (string, error)
 }
 
 func New(ctx context.Context, clientType string) (Client, error) {

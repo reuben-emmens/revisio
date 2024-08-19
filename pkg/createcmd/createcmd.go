@@ -24,20 +24,20 @@ func New(rootConfig *rootcmd.RootConfig) *CreateConfig {
 	cfg.RootConfig = rootConfig
 	cfg.Flags = ff.NewFlagSet("create").SetParent(cfg.RootConfig.Flags)
 	_, err := cfg.Flags.AddFlag(ff.FlagConfig{
-		ShortName: 's',
-		LongName:  "subject",
+		ShortName: 'k',
+		LongName:  "key",
 		Value:     ffval.NewValue(&cfg.Subject),
-		Usage:     "The subject of the flashcard",
+		Usage:     "The key of the flashcard",
 		NoDefault: true,
 	})
 	if err != nil {
 		fmt.Fprintln(cfg.Stderr, rootcmd.AddFlagErr.Error())
 	}
 	_, err = cfg.Flags.AddFlag(ff.FlagConfig{
-		ShortName: 'c',
-		LongName:  "content",
+		ShortName: 'v',
+		LongName:  "value",
 		Value:     ffval.NewValue(&cfg.Content),
-		Usage:     "The content of the flashcard",
+		Usage:     "The value of the flashcard",
 		NoDefault: true,
 	})
 	if err != nil {
@@ -56,9 +56,9 @@ func New(rootConfig *rootcmd.RootConfig) *CreateConfig {
 
 func (cfg *CreateConfig) Exec(ctx context.Context, args []string) error {
 	if cfg.Subject == "" {
-		return errors.New("Missing required flag: -s, --subject")
+		return errors.New("Missing required flag: -k, --key")
 	} else if cfg.Content == "" {
-		return errors.New("Missing required flag: -c, --content")
+		return errors.New("Missing required flag: -v, --value")
 	}
 
 	if err := cfg.Client.Create(ctx, cfg.Subject, cfg.Content); err != nil {
