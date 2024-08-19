@@ -44,7 +44,7 @@ jobs:
 
       - name: install .deb
         run: |
-          sudo dpkg -i *
+          sudo dpkg -i debian-package/*
       
       - name: run version command
         run: |
