@@ -21,6 +21,9 @@ jobs:
         with:
           go-version: '1.22.3'
 
+      - name: install dev-tools 
+        run: just dev-tools
+
       - name: run just build and package command 
         run: just deb-pkg
 
