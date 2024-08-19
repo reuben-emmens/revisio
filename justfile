@@ -43,3 +43,6 @@ deb-pkg: build set-control
 
 var:
   echo $DEBPKG
+
+dev-tools:
+  ./hack/tool.sh
