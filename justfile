@@ -45,4 +45,4 @@ var:
   echo $DEBPKG
 
 dev-tools:
-  ./hack/tool.sh
+  ./hack/dev-tools.sh
