@@ -13,8 +13,10 @@ vet: fmt
 lint: vet
   @golangci-lint run ./...
 
-test: lint
+test:
   @go test ./...
+
+presubmit: lint test
 
 alias b := build
 build: lint
