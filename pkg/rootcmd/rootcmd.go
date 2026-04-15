@@ -37,7 +37,7 @@ func New(stdout, stderr io.Writer) *RootConfig {
 		NoDefault: true,
 	})
 	if err != nil {
-		fmt.Fprintln(cfg.Stderr, AddFlagErr.Error())
+		fmt.Fprintln(cfg.Stderr, ErrAddFlag.Error())
 	}
 	cfg.Command = &ff.Command{
 		Name:      "revisio",

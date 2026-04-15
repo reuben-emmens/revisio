@@ -31,7 +31,7 @@ func New(rootConfig *rootcmd.RootConfig) *CreateConfig {
 		NoDefault: true,
 	})
 	if err != nil {
-		fmt.Fprintln(cfg.Stderr, rootcmd.AddFlagErr.Error())
+		fmt.Fprintln(cfg.Stderr, rootcmd.ErrAddFlag.Error())
 	}
 	_, err = cfg.Flags.AddFlag(ff.FlagConfig{
 		ShortName: 'v',
@@ -41,7 +41,7 @@ func New(rootConfig *rootcmd.RootConfig) *CreateConfig {
 		NoDefault: true,
 	})
 	if err != nil {
-		fmt.Fprintln(cfg.Stderr, rootcmd.AddFlagErr.Error())
+		fmt.Fprintln(cfg.Stderr, rootcmd.ErrAddFlag.Error())
 	}
 	cfg.Command = &ff.Command{
 		Name:      "create",
