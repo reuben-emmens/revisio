@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	AddFlagErr = errors.New("unable to add flag")
+	ErrAddFlag = errors.New("unable to add flag")
 )
 
 type RootConfig struct {
