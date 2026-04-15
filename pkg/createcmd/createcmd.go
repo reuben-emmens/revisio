@@ -56,9 +56,9 @@ func New(rootConfig *rootcmd.RootConfig) *CreateConfig {
 
 func (cfg *CreateConfig) Exec(ctx context.Context, args []string) error {
 	if cfg.Subject == "" {
-		return errors.New("Missing required flag: -k, --key")
+		return errors.New("missing required flag: -k, --key")
 	} else if cfg.Content == "" {
-		return errors.New("Missing required flag: -v, --value")
+		return errors.New("missing required flag: -v, --value")
 	}
 
 	if err := cfg.Client.Create(ctx, cfg.Subject, cfg.Content); err != nil {
