@@ -3,5 +3,6 @@ linters:
   default: standard
   exclusions:
     rules:
-      - linters: errcheck
+      - linters: 
+        - errcheck
         text: "fmt\\.(Print|Fprintf|Fprintln)|file\\.Close"
