@@ -31,7 +31,7 @@ func New(rootConfig *rootcmd.RootConfig) *CreateConfig {
 		NoDefault: true,
 	})
 	if err != nil {
-		fmt.Fprintln(cfg.Stderr, rootcmd.AddFlagErr.Error())
+		fmt.Fprintln(cfg.Stderr, rootcmd.ErrAddFlag.Error())
 	}
 	_, err = cfg.Flags.AddFlag(ff.FlagConfig{
 		ShortName: 'v',
@@ -41,7 +41,7 @@ func New(rootConfig *rootcmd.RootConfig) *CreateConfig {
 		NoDefault: true,
 	})
 	if err != nil {
-		fmt.Fprintln(cfg.Stderr, rootcmd.AddFlagErr.Error())
+		fmt.Fprintln(cfg.Stderr, rootcmd.ErrAddFlag.Error())
 	}
 	cfg.Command = &ff.Command{
 		Name:      "create",
@@ -56,9 +56,9 @@ func New(rootConfig *rootcmd.RootConfig) *CreateConfig {
 
 func (cfg *CreateConfig) Exec(ctx context.Context, args []string) error {
 	if cfg.Subject == "" {
-		return errors.New("Missing required flag: -k, --key")
+		return errors.New("missing required flag: -k, --key")
 	} else if cfg.Content == "" {
-		return errors.New("Missing required flag: -v, --value")
+		return errors.New("missing required flag: -v, --value")
 	}
 
 	if err := cfg.Client.Create(ctx, cfg.Subject, cfg.Content); err != nil {

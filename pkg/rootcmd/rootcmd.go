@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	AddFlagErr = errors.New("unable to add flag")
+	ErrAddFlag = errors.New("unable to add flag")
 )
 
 type RootConfig struct {
@@ -37,7 +37,7 @@ func New(stdout, stderr io.Writer) *RootConfig {
 		NoDefault: true,
 	})
 	if err != nil {
-		fmt.Fprintln(cfg.Stderr, AddFlagErr.Error())
+		fmt.Fprintln(cfg.Stderr, ErrAddFlag.Error())
 	}
 	cfg.Command = &ff.Command{
 		Name:      "revisio",

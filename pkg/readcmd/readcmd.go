@@ -29,7 +29,7 @@ func New(rootConfig *rootcmd.RootConfig) *ReadConfig {
 		NoDefault: true,
 	})
 	if err != nil {
-		fmt.Fprintln(cfg.Stderr, rootcmd.AddFlagErr.Error())
+		fmt.Fprintln(cfg.Stderr, rootcmd.ErrAddFlag.Error())
 	}
 	cfg.Command = &ff.Command{
 		Name:      "read",
@@ -45,7 +45,7 @@ func New(rootConfig *rootcmd.RootConfig) *ReadConfig {
 func (cfg *ReadConfig) Exec(ctx context.Context, args []string) error {
 	subject := cfg.Flashcard.GetKey()
 	if *subject == "" {
-		return errors.New("Missing required flag: -k, --key")
+		return errors.New("missing required flag: -k, --key")
 	}
 
 	value, err := cfg.Client.ReadValue(ctx, *subject)
