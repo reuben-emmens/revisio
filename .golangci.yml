@@ -4,4 +4,4 @@ linters:
   exclusions:
     rules:
       - linters: errcheck
-        text: "fmt\\.|file\\.Close"
+        text: "fmt\\.(Print|Fprintf|Fprintln)|file\\.Close"

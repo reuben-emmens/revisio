@@ -38,7 +38,8 @@ set-control:
   echo "description: $DESCRIPTION" >> $CONTROL
 
 deb-pkg: build set-control
-  mkdir -pv $BIN 
+  mkdir -pv $BIN
+  mkdir -pv $PACKAGES
   mv bin/revisio $BIN
   dpkg-deb --build $ROOT $PACKAGES
   sha256sum $PACKAGES/$DEBPKG > $PACKAGES/$DEBSHA
