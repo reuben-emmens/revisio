@@ -1,0 +1,6 @@
+source "https://rubygems.org"
+
+# Mirrors the plugins/versions GitHub Pages uses in production so `jekyll serve`
+# behaves the same locally as the pages-build-deployment workflow.
+gem "github-pages", group: :jekyll_plugins
+gem "webrick"
