@@ -1,4 +1,4 @@
-![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/reuben-emmens/revisio) ![GitHub Release](https://img.shields.io/github/v/tag/reuben-emmens/revisio) [![Go Report Card](https://goreportcard.com/badge/github.com/reuben-emmens/revisio)](https://goreportcard.com/report/github.com/reuben-emmens/revisio) ![GitHub License](https://img.shields.io/github/license/reuben-emmens/revisio)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/reuben-emmens/revisio) ![GitHub Release](https://img.shields.io/github/v/tag/reuben-emmens/revisio) ![GitHub License](https://img.shields.io/github/license/reuben-emmens/revisio)
 
 # revisio
 
