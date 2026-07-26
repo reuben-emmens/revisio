@@ -5,3 +5,5 @@
 Welcome to 'revisio', the digital flashcard management tool. The goal of the project is to create a CLI application which can both import CSV data and accept key-value arguments to create flashcards.
 
 There are ideas for more extended functionality, but these should be weighted against the benefits of keeping the app lightweight with a consistent API for third-party extensibility.
+
+📖 Full documentation: https://reuben-emmens.github.io/revisio/
