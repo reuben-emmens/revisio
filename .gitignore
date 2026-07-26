@@ -20,3 +20,10 @@ go.work.sum
 
 # IDE
 .vscode/
+
+# Jekyll (docs/)
+docs/_site/
+docs/.jekyll-cache/
+docs/.jekyll-metadata
+docs/Gemfile.lock
+docs/vendor/

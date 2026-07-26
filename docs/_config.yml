@@ -2,9 +2,3 @@ title: revisio
 description: A lightweight CLI flashcard management tool
 theme: jekyll-theme-primer
 show_downloads: false
-
-# Only build the pages listed in the nav below plus index.md
-include:
-  - index.md
-  - getting-started.md
-  - commands.md

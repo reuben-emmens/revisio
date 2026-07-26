@@ -43,4 +43,4 @@ Check the installed version:
 revisio version
 ```
 
-See the [Command Reference](commands.md) for the full list of flags.
+See the [Command Reference](commands.html) for the full list of flags.
