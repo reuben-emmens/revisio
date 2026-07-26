@@ -18,7 +18,7 @@ revisio [FLAGS] <SUBCOMMAND> ...
 ## `revisio create`
 
 ```
-revisio create [FLAGS] <KEY> <VALUE>
+revisio [--verbose] create --key <KEY> --value <VALUE>
 ```
 
 Create a flashcard.
