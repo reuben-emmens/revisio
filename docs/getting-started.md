@@ -7,7 +7,7 @@ title: Getting Started
 
 ## Installation
 
-Build from source with Go 1.22.3 or later:
+Build from source with Go 1.22 or later:
 
 ```sh
 git clone https://github.com/reuben-emmens/revisio.git
